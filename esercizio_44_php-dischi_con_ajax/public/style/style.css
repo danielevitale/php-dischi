@@ -1,0 +1,52 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  width: 100%;
+  background-color: grey;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-justify-content: space-around;
+          justify-content: space-around;
+  -webkit-flex-wrap: wrap;
+          flex-wrap: wrap;
+}
+
+.card {
+  width: 22%;
+  background-color: black;
+  color: white;
+  margin: 20px 0;
+  padding: 10px;
+  border: 1px solid white;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+          flex-direction: column;
+  -webkit-align-items: center;
+          align-items: center;
+}
+
+.card .card_copertina {
+  border: 1px solid white;
+  width: 150px;
+  height: 150px;
+  margin-bottom: 10px;
+}
+
+.card .card_copertina img {
+  width: 100%;
+}
+
+.card .card_valori {
+  text-align: center;
+}
+
+.card .card_valori h4 {
+  color: lightgrey;
+  padding-top: 5px;
+}
+
