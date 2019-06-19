@@ -2,11 +2,15 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title></title>
+    <title>php-dischi</title>
     <link rel="stylesheet" href="public/style/style.css">
   </head>
   <body>
-
+    <div class="container_button">
+      <select class="" name="">
+        <option value="">Scegli artista</option>
+      </select>
+    </div>
     <div class="container">
 
     </div>

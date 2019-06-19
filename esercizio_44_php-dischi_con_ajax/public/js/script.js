@@ -10707,15 +10707,25 @@ var $ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js"
 
 var card_disco = $("#card").html();
 var template = Handlebars.compile(card_disco);
-$(document).ready(function () {
+
+function lettura_db() {
   $.ajax({
-    'url': 'database.php',
+    'url': 'json_db.php',
     'method': 'GET',
     'success': function success(data) {
-      var db_dischi = JSON.parse(data); // Scorro l'array di oggetti db_dischi e genero l'oggetto context
+      var db_dischi = JSON.parse(data); // Scorro l'array di oggetti db_dischi per generare l'oggetto context e per aggiungere le options alla select
+      // Inizializzo un array che servirà a contenere tutti gli artisti
+
+      var array_option = [];
 
       for (var i = 0; i < db_dischi.length; i++) {
-        console.log(db_dischi[i]);
+        // Aggiungo le options alla select
+        //  verificando che ogni artista venga inserito una sola volta
+        if (!array_option.includes(db_dischi[i].artista)) {
+          $("select").append("<option>" + db_dischi[i].artista + "</option>");
+          array_option.push(db_dischi[i].artista);
+        }
+
         var context = {
           "immagine_copertina": db_dischi[i].immagine_copertina,
           "titolo": db_dischi[i].titolo,
@@ -10730,6 +10740,46 @@ $(document).ready(function () {
     'error': function error() {
       alert('si è verificato un errore');
     }
+  });
+}
+
+$(document).ready(function () {
+  // Richiamo la funzione che genera le card
+  lettura_db(); // al cambio del valore della select visualizzo solo gli album dell'artista scelto
+
+  $("select").change(function () {
+    // Svuoto il container delle card visualizzate prima del change select
+    $(".container").empty(); // Leggo il valore dell'option scelta dall'utente
+
+    var scelto = $("select").val(); // Effettuo chiamata ajax per inviare l'artista scelto dall'utente
+
+    $.ajax({
+      'url': 'filtra_artista.php',
+      'method': 'POST',
+      'data': {
+        'artista': scelto
+      },
+      // la chiamata mi restituisce
+      'success': function success(data) {
+        // La chiamata mi restituisce un array con gli album del singolo artista
+        var array_filtrato = JSON.parse(data); // Scorro l'array di oggetti array_filtrato e genero l'oggetto context
+
+        for (var i = 0; i < array_filtrato.length; i++) {
+          var context = {
+            "immagine_copertina": array_filtrato[i].immagine_copertina,
+            "titolo": array_filtrato[i].titolo,
+            "artista": array_filtrato[i].artista,
+            "anno": array_filtrato[i].anno // Genero la var html e inserisco nel html
+
+          };
+          var html = template(context);
+          $(".container").append(html);
+        }
+      },
+      'error': function error() {
+        alert('si è verificato un errore');
+      }
+    });
   });
 });
 

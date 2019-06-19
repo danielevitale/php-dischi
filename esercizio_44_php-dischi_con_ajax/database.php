@@ -63,6 +63,5 @@ $db_dischi = [
   ]
 ];
 
-echo json_encode($db_dischi);
 
  ?>
