@@ -6,7 +6,7 @@ var template = Handlebars.compile(card_disco);
 $(document).ready(function() {
 
   $.ajax({
-    'url': 'http://localhost:8888/esercizi/esercizio_44-php-dischi/esercizio_44_php-dischi_con_ajax/database.php',
+    'url': 'database.php',
     'method': 'GET',
     'success': function(data) {
       var db_dischi = JSON.parse(data);
