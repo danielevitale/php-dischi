@@ -57,8 +57,8 @@
   height: 50px;
   display: -webkit-flex;
   display: flex;
-  -webkit-justify-content: center;
-          justify-content: center;
+  -webkit-justify-content: space-between;
+          justify-content: space-between;
   -webkit-align-items: center;
           align-items: center;
   background-color: black;
@@ -66,10 +66,11 @@
 
 .container_button select {
   padding: 10px;
+  margin-left: 50px;
 }
 
 .container_button button {
   padding: 10px;
-  margin-left: 20px;
+  margin-right: 50px;
 }
 
