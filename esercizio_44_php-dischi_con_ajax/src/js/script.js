@@ -44,28 +44,59 @@ $(document).ready(function() {
 
   // al cambio del valore della select visualizzo solo gli album dell'artista scelto
   $("select").change(function(){
-    // Svuoto il container delle card visualizzate prima del change select
-    $(".container").empty();
     // Leggo il valore dell'option scelta dall'utente
     var scelto = $("select").val();
-    // Effettuo chiamata ajax per inviare l'artista scelto dall'utente
+    console.log(scelto);
+    // Verifico che l'utente abbia effettivamente scelto un artista
+    if (scelto != '') {
+      // Svuoto il container delle card visualizzate prima del change select
+      $(".container").empty();
+      // Effettuo chiamata ajax per inviare l'artista scelto dall'utente
+      $.ajax({
+        'url': 'filtra_artista.php',
+        'method': 'POST',
+        'data': {
+          'artista': scelto
+        },
+        'success': function(data) {
+          // La chiamata mi restituisce un array con gli album del singolo artista
+          var array_filtrato = JSON.parse(data);
+          // Scorro l'array di oggetti array_filtrato e genero l'oggetto context
+          for (var i = 0; i < array_filtrato.length; i++) {
+            var context = {
+              "immagine_copertina": array_filtrato[i].immagine_copertina,
+              "titolo": array_filtrato[i].titolo,
+              "artista": array_filtrato[i].artista,
+              "anno": array_filtrato[i].anno,
+            }
+            // Genero la var html e inserisco nel html
+            var html = template(context);
+            $(".container").append(html);
+          }
+        },
+        'error': function() {
+          alert('si è verificato un errore');
+        }
+      });
+    }
+  })
+
+  $("button").click(function(){
+    // Svuoto il container delle card che compaiono al caricamento della pagina
+    $(".container").empty();
     $.ajax({
-      'url': 'filtra_artista.php',
-      'method': 'POST',
-      'data': {
-        'artista': scelto
-      },
-      // la chiamata mi restituisce
+      'url': 'ordina_data.php',
+      'method': 'GET',
       'success': function(data) {
-        // La chiamata mi restituisce un array con gli album del singolo artista
-        var array_filtrato = JSON.parse(data);
-        // Scorro l'array di oggetti array_filtrato e genero l'oggetto context
-        for (var i = 0; i < array_filtrato.length; i++) {
+        // La chiamata mi restituisce un array con gli album ordinati per data di uscita
+        var array_ordinato = JSON.parse(data);
+        // Scorro l'array di oggetti array_ordinato e genero l'oggetto context
+        for (var i = 0; i < array_ordinato.length; i++) {
           var context = {
-            "immagine_copertina": array_filtrato[i].immagine_copertina,
-            "titolo": array_filtrato[i].titolo,
-            "artista": array_filtrato[i].artista,
-            "anno": array_filtrato[i].anno,
+            "immagine_copertina": array_ordinato[i].immagine_copertina,
+            "titolo": array_ordinato[i].titolo,
+            "artista": array_ordinato[i].artista,
+            "anno": array_ordinato[i].anno,
           }
           // Genero la var html e inserisco nel html
           var html = template(context);
@@ -76,9 +107,5 @@ $(document).ready(function() {
         alert('si è verificato un errore');
       }
     });
-
-
-  })
-
-
-});
+  });
+})

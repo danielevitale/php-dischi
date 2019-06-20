@@ -1,3 +1,9 @@
+<!-- Stampare a schermo una decina di dischi musicali.
+Attraverso l’utilizzo di AJAX: al caricamento della pagina ajax chiederà attraverso una chiamata i dischi a php e li stamperà attraverso handlebars.
+Attraverso un’altra chiamata ajax, ﬁltrare gli album per artista -
+Attraverso un’altra chiamata ajax, ordinare gli album per data di uscita. -->
+
+
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
@@ -8,8 +14,9 @@
   <body>
     <div class="container_button">
       <select class="" name="">
-        <option value="">Scegli artista</option>
+        <option value="">SCEGLI ARTISTA</option>
       </select>
+      <button type="button" name="button">ORDINA PER DATA DI USCITA</button>
     </div>
     <div class="container">
 
